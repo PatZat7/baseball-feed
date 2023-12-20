@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import policiesReducer from "./policiesSlice";
 import gamesReducer from "./gameSlice";
 import { useMemo } from "react";
 
@@ -8,9 +7,7 @@ let store: ReturnType<typeof makeStore> | null = null;
 export const makeStore = (preloadedState = {}) =>
   configureStore({
     reducer: {
-      // policies: policiesReducer,
       games: gamesReducer,
-      // ... other reducers
     },
     preloadedState,
   });
@@ -33,7 +30,7 @@ export const useStore = (initialState: RootState) => {
   return store;
 };
 
-const tempStore = makeStore();
+const tempStore = makeStore(); // store could be created as undefined this is used to satisfy typescript until store is initialized
 
 export type RootState = ReturnType<typeof tempStore.getState>;
 export type AppDispatch = typeof tempStore.dispatch;

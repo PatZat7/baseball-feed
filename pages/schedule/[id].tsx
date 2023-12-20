@@ -1,22 +1,24 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { Game } from "../../types/game"; // Assuming you have this Game interface defined in the types
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { updateGame } from "../../redux/gameSlice"; // Adjust this import to your game slice
+import type { AppDispatch } from "../../redux/store";
 import Schedule from "../../components/Schedule";
 //import { selectGameById, getGameById } from "../../redux/scheduleSelectors";
 import { RootState } from "../../redux/store";
+import { Game } from "../../types/game";
 
-// export const getServerSideProps = async (context) => {
-//     const reduxStore = initializeStore();
-//     const { dispatch } = reduxStore;
+interface UpdateGamePageProps {
+  gameData?: Game;
+  onSubmit: (gameData: Game) => void;
+}
 
-//     await dispatch(fetchGames(/* parameters if any */));
+const GameDetailPage: React.FC<UpdateGamePageProps> = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
-//     return { props: { initialReduxState: reduxStore.getState() } };
-//   };
-
-const GameDetailPage: React.FC = () => {
-  //if (!game) return <p>Loading...</p>;
+  const handleSubmit = (game: Game) => {
+    dispatch(updateGame(game));
+  };
 
   return (
     <div>
@@ -40,7 +42,7 @@ const GameDetailPage: React.FC = () => {
       <p>Home Score: {game.score.home_score}</p>
       <p>Away Score: {game.score.away_score}</p> */}
 
-      <Schedule></Schedule>
+      <Schedule onSubmit={handleSubmit}></Schedule>
 
       {/* {game.no_broadcast && <p>No Broadcast</p>} */}
     </div>

@@ -1,4 +1,4 @@
-interface Channel {
+export interface Channel {
   id: number;
   name: string;
   public_cdn_url: string;

@@ -183,11 +183,11 @@ const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
         >
           <Button color="secondary" variant="outlined" size="large">
             <AddOutlined color="secondary" sx={{ marginRight: "10px" }} />
-            <MUILink color="secondary" href="/add-policy">
+            <MUILink color="secondary" href="/add-game">
               Add New Policy
             </MUILink>
           </Button>
-          <Button color="secondary" variant="outlined" size="large">
+          {/* <Button color="secondary" variant="outlined" size="large">
             <ModeOutlined color="secondary" sx={{ marginRight: "10px" }} />
             <MUILink color="secondary" href="/update-policy">
               Edit Policy
@@ -196,7 +196,7 @@ const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
           <Button variant="outlined" size="large">
             <ClearOutlined color="primary" sx={{ marginRight: "10px" }} />
             <MUILink href="/delete-policy">delete Policy</MUILink>
-          </Button>
+          </Button> */}
         </Paper>
       </AppBar>
     </Box>

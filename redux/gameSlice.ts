@@ -96,7 +96,7 @@ export const deleteGame = createAsyncThunk(
   "games/deleteGame",
   async (gameId: number, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/schedule/${gameId}`, {
+      const response = await fetch(`/api/schedule/gameById/${gameId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -113,7 +113,7 @@ export const updateGame = createAsyncThunk(
   "games/updateGame",
   async (game: Game, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/schedule/${game.id}`, {
+      const response = await fetch(`/api/schedule/gameById/${game.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

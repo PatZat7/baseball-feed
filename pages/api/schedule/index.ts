@@ -72,28 +72,3 @@ export default async function handler(
     res.status(405).end(); // Method Not Allowed
   }
 }
-
-// export default async function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse<Array<Game>>
-// ) {
-//   if (req.method === "POST") {
-//     const newGame = req.body;
-
-//     // Read the current games
-//     const filePath = path.join(process.cwd(), "BaseballGames.json");
-//     const fileData = fs.readFileSync(filePath);
-//     const games: Game[] = JSON.parse(fileData.toString());
-
-//     // Add the new game
-//     // Add the new policy
-//     games.push({ ...newGame, id: games.length + 1 }); // Generate a new ID
-//     fs.writeFileSync(filePath, JSON.stringify(games));
-
-//     res.status(201).json(newGame);
-//   } else if (req.method === "GET") {
-//     res.status(200).json(games);
-//   } else {
-//     res.status(405).end(); // Method Not Allowed
-//   }
-// }

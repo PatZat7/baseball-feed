@@ -65,20 +65,76 @@ const GameForm: React.FC<GameFormProps> = ({ game, onSubmit, mode }) => {
       </Typography>
 
       <form onSubmit={handleSubmit}>
-        {/* Game Form Fields */}
-        {/* Replace or modify fields as per the Game interface */}
-        {/* Example for a simple field: */}
-        <Box>
-          <TextField
-            label="Date Time"
-            variant="standard"
-            type="text"
-            name="date_time"
-            value={formData.date_time}
-            onChange={handleChange}
-          />
-        </Box>
-        {/* Continue with other fields such as official_date, home_team, away_team, etc. */}
+        <Paper
+          sx={{
+            maxWidth: "400px",
+            padding: "1rem",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+              margin: "1rem 0",
+            }}
+          >
+            <Typography>
+              <label htmlFor="id">Policy ID:</label>
+            </Typography>
+            <TextField
+              label="Enter Unique ID"
+              variant="standard"
+              type="text"
+              name="id"
+              value={formData.id}
+              onChange={handleChange}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+              margin: "1rem 0",
+            }}
+          >
+            <Typography>
+              <label htmlFor="policyHolderName">Policy Holder Name:</label>
+            </Typography>
+            <TextField
+              label="Enter Name"
+              variant="standard"
+              type="text"
+              name="policyHolderName"
+              value={formData.policyHolderName}
+              onChange={handleChange}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+              margin: "1rem 0",
+            }}
+          >
+            <Typography>
+              <label htmlFor="coverage">Coverage:</label>
+            </Typography>
+            <TextField
+              label="Enter coverage type"
+              variant="standard"
+              type="text"
+              name="coverage"
+              value={formData.coverage}
+              onChange={handleChange}
+            />
+          </Box>
+        </Paper>
 
         <Button
           color="secondary"
@@ -88,10 +144,10 @@ const GameForm: React.FC<GameFormProps> = ({ game, onSubmit, mode }) => {
           sx={{ margin: "1rem 0" }}
         >
           {mode === "add"
-            ? "Add New Game"
+            ? "Add New Policy"
             : mode === "update"
-            ? "Update Game"
-            : "Delete Game"}
+            ? "Update Policy"
+            : "Delete Policy"}
         </Button>
       </form>
     </div>

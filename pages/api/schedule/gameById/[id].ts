@@ -1,10 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import games from "../../../../BaseballGames.json"; // Assuming you have a games.json file
-import type { Game } from "../../../../types/game"; // Assuming Game interface is defined here
+import games from "../../../../BaseballGames.json";
+import type { Game } from "../../../../types/game";
 import fs from "fs";
 import path from "path";
-//https://baseball.com/api/schedule/gameById/{id}
-//https://baseball.com/api/schedule/{official_date}
 
 export default function handler(
   req: NextApiRequest,
@@ -28,7 +26,7 @@ export default function handler(
     }
     const gameId = parseInt(Array.isArray(id) ? id[0] : id, 10);
     // Path to your JSON file
-    const filePath = path.join(process.cwd(), "games.json");
+    const filePath = path.join(process.cwd(), "BaseballGames.json");
     const fileData = fs.readFileSync(filePath);
     let games: Game[] = JSON.parse(fileData.toString());
 
@@ -46,7 +44,7 @@ export default function handler(
     }
     const gameId = parseInt(Array.isArray(id) ? id[0] : id, 10);
     const updatedGame: Game = req.body;
-    const filePath = path.join(process.cwd(), "games.json");
+    const filePath = path.join(process.cwd(), "BaseballGames.json");
     let games: Game[] = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
     games = games.map((game) =>
