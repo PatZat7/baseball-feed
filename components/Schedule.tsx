@@ -114,9 +114,9 @@ const Schedule: React.FC<ScheduleProps> = ({ onSubmit }) => {
   useEffect(() => {
     const selectGame = games.find((game) => game.id === gameId);
     if (selectGame) {
-      setFormData(selectGame);
+      setFormData((prevState) => ({ ...prevState, ...selectGame }));
     }
-  }, [gameId]);
+  }, [games, gameId]);
 
   useEffect(() => {
     if (selectedDate) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchGames, deleteGame } from "../redux/gameSlice"; // Adjust these imports
 import type { AppDispatch, RootState } from "../redux/store";
+import { useAppDispatch } from "@/redux/hooks";
 import { Game } from "../types/game"; // Adjust this import
 import {
   styled,
@@ -14,8 +15,7 @@ import {
   Paper,
   Link as MUILink,
 } from "@mui/material";
-import { ModeOutlined, ClearOutlined, AddOutlined } from "@mui/icons-material";
-import { initializeStore } from "../redux/store";
+import { ClearOutlined, AddOutlined } from "@mui/icons-material";
 
 interface HomePageProps {
   initialReduxState: any; // Replace 'any' with a more specific type if possible
@@ -27,10 +27,11 @@ const Item = styled(Paper)(({ theme }) => ({
   color: "#fff",
 }));
 
-export const getServerSideProps = async () => {
-  const reduxStore = initializeStore();
-  const { dispatch } = reduxStore;
-
+//
+const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
+  const [games, setGames] = useState<Game[]>([]);
+  const dispatch = useAppDispatch();
+  const gameData = useSelector((state: RootState) => state.games.games); // Adjust to your game slice
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
@@ -38,23 +39,9 @@ export const getServerSideProps = async () => {
 
   const formattedDate = `${year}-${month}-${day}`;
 
-  await dispatch(fetchGames(formattedDate));
-
-  console.log(reduxStore.getState());
-  return { props: { initialReduxState: reduxStore.getState() } };
-};
-
-const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
-  const [games, setGames] = useState<Game[]>([]);
-  const dispatch = useDispatch<AppDispatch>();
-  const gameData = useSelector((state: RootState) => state.games.games); // Adjust to your game slice
-
   useEffect(() => {
-    // If the initialReduxState is provided, hydrate the store
-    if (initialReduxState) {
-      dispatch({ type: "HYDRATE", payload: initialReduxState });
-    }
-  }, [initialReduxState, dispatch]);
+    dispatch(fetchGames(formattedDate));
+  }, []);
 
   useEffect(() => {
     if (gameData) {

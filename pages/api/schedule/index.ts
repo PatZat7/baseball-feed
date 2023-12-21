@@ -34,32 +34,27 @@ export default async function handler(
 
     res.status(201).json(newGame);
   } else if (req.method === "GET") {
-    //Make channel option in ts interface and exclude it from the schedule endpoint
-    //Directions specifially state what data to send over what endpoint. potential next step => only omit channel IF user role is admin
-    const adminGames: Omit<Game, "channel">[] = games.map((game) => {
-      const { channel, ...gameWithoutChannel } = game;
-      return gameWithoutChannel;
-    });
-
     if (!date || typeof date !== "string") {
       return res.status(400).json({ message: "Invalid or missing date" });
     }
 
     try {
       const targetDate = new Date(date);
+
       if (isNaN(targetDate.getTime())) {
         return res.status(400).json({ message: "Invalid date format" });
       }
 
-      const startDate = addDays(targetDate, 0);
+      // Assuming you want to filter games starting from the given date up to 7 days ahead
       const endDate = addDays(targetDate, 7);
 
-      const filteredGames = adminGames.filter((game) => {
+      const filteredGames = games.filter((game) => {
         const gameDate = new Date(game.official_date);
-        return gameDate >= startDate && gameDate <= endDate;
+        console.log(gameDate);
+        // Check if the game date is on or after the target date and before or on the end date
+        return gameDate >= targetDate && gameDate <= endDate;
       });
-
-      return res.status(200).json(filteredGames);
+      res.status(200).json(filteredGames);
     } catch (error) {
       if (error instanceof Error) {
         //try...catch block makes error type unknown. check if the caught object is an instance of Error to access props safely
