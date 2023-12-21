@@ -13,6 +13,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { updateGame } from "../redux/gameSlice";
 import type { AppDispatch } from "../redux/store";
+import ReactHlsPlayer from "@ducanh2912/react-hls-player";
 interface ScheduleProps {
   onSubmit: (data: Game) => void;
 }
@@ -353,6 +354,13 @@ const Schedule: React.FC<ScheduleProps> = ({ onSubmit }) => {
           Update Game
         </Button>
       </form>
+      <ReactHlsPlayer
+        src="https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
+        autoPlay={true}
+        controls={true}
+        width="100%"
+        height="auto"
+      />
     </div>
   );
 };

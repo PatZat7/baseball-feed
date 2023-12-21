@@ -68,6 +68,26 @@ export default async function handler(
           .json({ message: "Server error", error: error.message });
       }
     }
+  } else if (req.method === "PUT") {
+    const {
+      query: { id },
+    } = req;
+    if (!id) {
+      res.status(400).json({ message: "Game ID is required" });
+      return;
+    }
+    const gameId = parseInt(Array.isArray(id) ? id[0] : id, 10);
+    const updatedGame: Game = req.body;
+    const filePath = path.join(process.cwd(), "BaseballGames.json");
+    let games: Game[] = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
+    games = games.map((game) =>
+      game.id === gameId ? { ...game, ...updatedGame, id: gameId } : game
+    );
+
+    fs.writeFileSync(filePath, JSON.stringify(games));
+
+    res.status(200).json({ message: "Game updated" });
   } else {
     res.status(405).end(); // Method Not Allowed
   }

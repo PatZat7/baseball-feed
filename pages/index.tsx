@@ -39,6 +39,7 @@ export const getServerSideProps = async () => {
   const formattedDate = `${year}-${month}-${day}`;
 
   await dispatch(fetchGames(formattedDate));
+
   console.log(reduxStore.getState());
   return { props: { initialReduxState: reduxStore.getState() } };
 };
@@ -159,18 +160,7 @@ const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
           ))}
         </Stack>
       </Box>
-      {/* <video
-        id="my_video_1"
-        className="video-js vjs-fluid vjs-default-skin"
-        controls
-        preload="auto"
-        data-setup="{}"
-      >
-        <source
-          src="https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
-          type="application/x-mpegURL"
-        />
-      </video> */}
+
       <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }}>
         <Paper
           sx={{

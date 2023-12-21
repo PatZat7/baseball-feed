@@ -22,29 +22,7 @@ const GameDetailPage: React.FC<UpdateGamePageProps> = () => {
 
   return (
     <div>
-      {/* <h2>Game Detail</h2>
-      <p>Date and Time: {game.date_time}</p>
-      <p>Official Date: {game.official_date}</p>
-      <p>Venue: {game.venue}</p>
-      <p>Status: {game.status}</p>
-
-      <h3>Home Team</h3>
-      <p>Name: {game.home_team.name}</p>
-      <p>Abbreviation: {game.home_team.abbreviation}</p>
-
-      <h3>Away Team</h3>
-      <p>Name: {game.away_team.name}</p>
-      <p>Abbreviation: {game.away_team.abbreviation}</p>
-
-      <h3>Score</h3>
-      <p>Inning: {game.score.inning}</p>
-      <p>Inning Half: {game.score.inning_half}</p>
-      <p>Home Score: {game.score.home_score}</p>
-      <p>Away Score: {game.score.away_score}</p> */}
-
       <Schedule onSubmit={handleSubmit}></Schedule>
-
-      {/* {game.no_broadcast && <p>No Broadcast</p>} */}
     </div>
   );
 };

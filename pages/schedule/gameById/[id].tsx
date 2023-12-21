@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Game } from "../../../types/game"; // Assuming you have this Game interface defined in the types
+import ReactHlsPlayer from "@ducanh2912/react-hls-player";
 
 const GameDetailPage: React.FC = () => {
   const router = useRouter();
