@@ -13,9 +13,16 @@ export default function handler(
   } = req;
 
   if (req.method === "GET") {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+
     const game = games.find((g) => g.id === parseInt(id as string));
+
     if (game) {
-      res.status(200).json(game);
+      res.write(`data: ${JSON.stringify(game)}\n\n`);
+      // Close the connection after sending the game data
+      res.end();
     } else {
       res.status(404).json({ message: "Game not found" });
     }

@@ -117,7 +117,7 @@ const HomePage: React.FC = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  width: "80%",
+                  width: "70%",
                 }}
                 color="secondary"
                 className="font-sans"
@@ -143,6 +143,11 @@ const HomePage: React.FC = () => {
                   </Typography>
                 </Box>
               </MUILink>
+              <Button variant="outlined" size="small">
+                <MUILink href={`/schedule/gameById/${game.id}`}>
+                  View Consumer Page
+                </MUILink>
+              </Button>
               <Button
                 variant="contained"
                 size="small"

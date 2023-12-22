@@ -8,11 +8,32 @@ const GameDetailPage: React.FC = () => {
   const { id } = router.query;
   const [game, setGame] = useState<Game | null>(null);
 
+  // useEffect(() => {
+  //   if (typeof id === "string") {
+  //     fetch(`/api/schedule/gameById/${id}`)
+  //       .then((res) => res.json())
+  //       .then(setGame);
+  //   }
+  // }, [id]);
+
   useEffect(() => {
     if (typeof id === "string") {
-      fetch(`/api/schedule/gameById/${id}`)
-        .then((res) => res.json())
-        .then(setGame);
+      const source = new EventSource(`/api/schedule/gameById/${id}`);
+
+      source.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log(data);
+        setGame(data); // Handle the streamed data
+      };
+
+      source.onerror = () => {
+        source.close();
+        console.error("Stream encountered an error");
+      };
+
+      return () => {
+        source.close();
+      };
     }
   }, [id]);
 
