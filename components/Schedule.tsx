@@ -11,7 +11,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { updateGame } from "../redux/gameSlice";
+import { updateGame, fetchGames } from "../redux/gameSlice";
 import type { AppDispatch } from "../redux/store";
 import ReactHlsPlayer from "@ducanh2912/react-hls-player";
 interface ScheduleProps {
@@ -57,7 +57,14 @@ const Schedule: React.FC<ScheduleProps> = ({ onSubmit }) => {
       away_score: 0,
     },
   });
-
+  useEffect(() => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    dispatch(fetchGames(formattedDate));
+  }, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -112,6 +119,7 @@ const Schedule: React.FC<ScheduleProps> = ({ onSubmit }) => {
 
   //show latest info on edit form
   useEffect(() => {
+    console.log(games);
     const selectGame = games.find((game) => game.id === gameId);
     if (selectGame) {
       setFormData((prevState) => ({ ...prevState, ...selectGame }));
@@ -354,13 +362,6 @@ const Schedule: React.FC<ScheduleProps> = ({ onSubmit }) => {
           Update Game
         </Button>
       </form>
-      <ReactHlsPlayer
-        src="https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
-        autoPlay={true}
-        controls={true}
-        width="100%"
-        height="auto"
-      />
     </div>
   );
 };

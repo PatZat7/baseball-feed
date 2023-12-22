@@ -49,6 +49,13 @@ const GameDetailPage: React.FC = () => {
       )}
 
       {game.no_broadcast && <p>No Broadcast</p>}
+      <ReactHlsPlayer
+        src="https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
+        autoPlay={true}
+        controls={true}
+        width="100%"
+        height="auto"
+      />
     </div>
   );
 };
