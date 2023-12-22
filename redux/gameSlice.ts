@@ -21,10 +21,12 @@ import axios from "axios";
 
 interface GamesState {
   games: Game[];
+  streamData: Game;
 }
 
 const initialState: GamesState = {
   games: [],
+  streamData: null,
 };
 
 export const fetchGames = createAsyncThunk<Game[], string>(
@@ -40,6 +42,28 @@ export const fetchGames = createAsyncThunk<Game[], string>(
     }
   }
 );
+
+//Left as example of how to use stream as thunk.
+// export const fetchDataStream = createAsyncThunk(
+//   "games/fetchStream",
+//   async (gameId: number, { dispatch }) => {
+//     const source = new EventSource(`/api/schedule/gameById/${gameId}`);
+
+//     source.onmessage = (event) => {
+//       const data = JSON.parse(event.data);
+//       dispatch(dataReceived(data));
+//     };
+
+//     source.onerror = () => {
+//       source.close();
+//       dispatch(streamError());
+//     };
+
+//     return () => {
+//       source.close();
+//     };
+//   }
+// );
 
 export const addGame = createAsyncThunk<Game, Game, { rejectValue: string }>(
   "games/addGame",
@@ -103,7 +127,15 @@ export const updateGame = createAsyncThunk(
 const gameSlice = createSlice({
   name: "games",
   initialState,
-  reducers: {},
+  reducers: {
+    // streamed GET
+    // dataReceived: (state, action) => {
+    //   state.streamData.push(action.payload);
+    // },
+    // streamError: (state) => {
+    //   state.error = "Error in data stream";
+    // },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchGames.pending, (state) => {
@@ -138,4 +170,5 @@ const gameSlice = createSlice({
   },
 });
 
+// export const { dataReceived, streamError } = gameSlice.actions;
 export default gameSlice.reducer;

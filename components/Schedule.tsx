@@ -57,6 +57,7 @@ const Schedule: React.FC<ScheduleProps> = ({ onSubmit }) => {
       away_score: 0,
     },
   });
+
   useEffect(() => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();

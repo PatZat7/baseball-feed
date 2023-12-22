@@ -15,7 +15,7 @@ import {
   Paper,
   Link as MUILink,
 } from "@mui/material";
-import { ClearOutlined, AddOutlined } from "@mui/icons-material";
+import { ModeOutlined, ClearOutlined, AddOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -117,7 +117,7 @@ const HomePage: React.FC = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  width: "80%",
+                  width: "70%",
                 }}
                 color="secondary"
                 className="font-sans"
@@ -137,12 +137,29 @@ const HomePage: React.FC = () => {
                   </Typography>
                 </Box>
 
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography sx={{ fontSize: "1.5rem", marginRight: "1rem" }}>
+                    {game.home_team.abbreviation} vs
+                    {game.away_team.abbreviation}
+                  </Typography>
+                </Box>
+
                 <Box>
                   <Typography sx={{ fontSize: "1.25rem" }}>
                     Venue: {game.venue}
                   </Typography>
                 </Box>
               </MUILink>
+              <Button variant="outlined" size="small">
+                <MUILink href={`/schedule/gameById/${game.id}`}>
+                  View Consumer Page
+                </MUILink>
+              </Button>
               <Button
                 variant="contained"
                 size="small"
@@ -170,19 +187,19 @@ const HomePage: React.FC = () => {
           <Button color="secondary" variant="outlined" size="large">
             <AddOutlined color="secondary" sx={{ marginRight: "10px" }} />
             <MUILink color="secondary" href="/add-game">
-              Add New Policy
+              Add New Game
             </MUILink>
           </Button>
-          {/* <Button color="secondary" variant="outlined" size="large">
+          <Button color="secondary" variant="outlined" size="large">
             <ModeOutlined color="secondary" sx={{ marginRight: "10px" }} />
             <MUILink color="secondary" href="/update-policy">
-              Edit Policy
+              Edit Game
             </MUILink>
           </Button>
           <Button variant="outlined" size="large">
             <ClearOutlined color="primary" sx={{ marginRight: "10px" }} />
-            <MUILink href="/delete-policy">delete Policy</MUILink>
-          </Button> */}
+            <MUILink href="/delete-policy">delete Game</MUILink>
+          </Button>
         </Paper>
       </AppBar>
     </Box>
