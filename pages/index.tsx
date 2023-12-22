@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ReactComponent as Logo } from "../public/bally.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchGames, deleteGame } from "../redux/gameSlice"; // Adjust these imports
 import type { AppDispatch, RootState } from "../redux/store";
@@ -72,8 +73,26 @@ const HomePage: React.FC = () => {
       }}
     >
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box>
+            <img src="/bally.svg" alt="bally logo" width="150px" />
+          </Box>
+
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              maxWidth: "fit-content",
+              fontWeight: "600",
+              fontSize: "1.5rem",
+            }}
+          >
             Broadcast and stats feed
           </Typography>
           <Button color="inherit">version no.1</Button>
@@ -117,7 +136,7 @@ const HomePage: React.FC = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  width: "70%",
+                  width: "60%",
                 }}
                 color="secondary"
                 className="font-sans"
@@ -138,58 +157,37 @@ const HomePage: React.FC = () => {
                 </Box>
 
                 <Box>
-                  <Typography sx={{ fontSize: "1.25rem" }}>
+                  <Typography sx={{ fontSize: "1rem", marginTop: "0.5rem" }}>
                     Venue: {game.venue}
                   </Typography>
                 </Box>
               </MUILink>
-              <Button variant="outlined" size="small">
-                <MUILink href={`/schedule/gameById/${game.id}`}>
-                  View Consumer Page
-                </MUILink>
-              </Button>
-              <Button
-                variant="contained"
-                size="small"
-                color="primary"
-                onClick={() => handleDelete(game.id)}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  minWidth: "450px",
+                }}
               >
-                <ClearOutlined sx={{ marginRight: "10px" }} />
-                Delete Scheduled Game
-              </Button>
+                <Button variant="outlined" size="small">
+                  <MUILink href={`/schedule/gameById/${game.id}`}>
+                    View Consumer Page
+                  </MUILink>
+                </Button>
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  onClick={() => handleDelete(game.id)}
+                >
+                  <ClearOutlined sx={{ marginRight: "10px" }} />
+                  Delete Scheduled Game
+                </Button>
+              </Box>
             </Item>
           ))}
         </Stack>
       </Box>
-
-      <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }}>
-        <Paper
-          sx={{
-            display: "flex",
-            width: "80vw",
-            margin: "1rem auto",
-            padding: "1rem",
-            justifyContent: "space-around",
-          }}
-        >
-          <Button color="secondary" variant="outlined" size="large">
-            <AddOutlined color="secondary" sx={{ marginRight: "10px" }} />
-            <MUILink color="secondary" href="/add-game">
-              Add New Policy
-            </MUILink>
-          </Button>
-          {/* <Button color="secondary" variant="outlined" size="large">
-            <ModeOutlined color="secondary" sx={{ marginRight: "10px" }} />
-            <MUILink color="secondary" href="/update-policy">
-              Edit Policy
-            </MUILink>
-          </Button>
-          <Button variant="outlined" size="large">
-            <ClearOutlined color="primary" sx={{ marginRight: "10px" }} />
-            <MUILink href="/delete-policy">delete Policy</MUILink>
-          </Button> */}
-        </Paper>
-      </AppBar>
     </Box>
   );
 };

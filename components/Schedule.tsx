@@ -14,6 +14,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { updateGame, fetchGames } from "../redux/gameSlice";
 import type { AppDispatch } from "../redux/store";
 import ReactHlsPlayer from "@ducanh2912/react-hls-player";
+
 interface ScheduleProps {
   onSubmit: (data: Game) => void;
 }
@@ -22,6 +23,7 @@ const Schedule: React.FC<ScheduleProps> = ({ onSubmit }) => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const { id } = router.query;
+
   const gameId = Array.isArray(id)
     ? parseInt(id[0], 10)
     : parseInt(id as string, 10);
