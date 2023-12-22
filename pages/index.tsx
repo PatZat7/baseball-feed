@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ReactComponent as Logo } from "../public/bally.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchGames, deleteGame } from "../redux/gameSlice"; // Adjust these imports
 import type { AppDispatch, RootState } from "../redux/store";
@@ -16,10 +17,7 @@ import {
   Link as MUILink,
 } from "@mui/material";
 import { ClearOutlined, AddOutlined } from "@mui/icons-material";
-
-interface HomePageProps {
-  initialReduxState: any; // Replace 'any' with a more specific type if possible
-}
+import { useRouter } from "next/router";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -27,8 +25,8 @@ const Item = styled(Paper)(({ theme }) => ({
   color: "#fff",
 }));
 
-//
-const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
+const HomePage: React.FC = () => {
+  const router = useRouter();
   const [games, setGames] = useState<Game[]>([]);
   const dispatch = useAppDispatch();
   const gameData = useSelector((state: RootState) => state.games.games); // Adjust to your game slice
@@ -36,12 +34,24 @@ const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
   const day = String(currentDate.getDate()).padStart(2, "0");
-
   const formattedDate = `${year}-${month}-${day}`;
 
   useEffect(() => {
     dispatch(fetchGames(formattedDate));
   }, []);
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      dispatch(fetchGames(formattedDate));
+    };
+
+    router.events.on("routeChangeComplete", handleRouteChange);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.asPath]);
 
   useEffect(() => {
     if (gameData) {
@@ -63,9 +73,27 @@ const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
       }}
     >
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Insurance App
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box>
+            <img src="/bally.svg" alt="bally logo" width="150px" />
+          </Box>
+
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              maxWidth: "fit-content",
+              fontWeight: "600",
+              fontSize: "1.5rem",
+            }}
+          >
+            Broadcast and stats feed
           </Typography>
           <Button color="inherit">version no.1</Button>
         </Toolbar>
@@ -76,7 +104,7 @@ const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
         sx={{ fontSize: "2.5rem", margin: "2rem auto" }}
         className="font-sans"
       >
-        Insurance Policies
+        7-Day Game Schedule
       </Typography>
 
       <Box
@@ -108,7 +136,7 @@ const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  width: "80%",
+                  width: "60%",
                 }}
                 color="secondary"
                 className="font-sans"
@@ -124,58 +152,42 @@ const HomePage: React.FC<HomePageProps> = ({ initialReduxState }) => {
                     {game.id}
                   </Typography>
                   <Typography sx={{ fontSize: "1.5rem" }}>
-                    {game.date_time}
+                    {game.official_date}
                   </Typography>
                 </Box>
 
                 <Box>
-                  <Typography sx={{ fontSize: "1.25rem" }}>
-                    Coverage: {game.venue}
+                  <Typography sx={{ fontSize: "1rem", marginTop: "0.5rem" }}>
+                    Venue: {game.venue}
                   </Typography>
                 </Box>
               </MUILink>
-              <Button
-                variant="contained"
-                size="small"
-                color="primary"
-                onClick={() => handleDelete(game.id)}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  minWidth: "450px",
+                }}
               >
-                <ClearOutlined sx={{ marginRight: "10px" }} />
-                Delete Policy
-              </Button>
+                <Button variant="outlined" size="small">
+                  <MUILink href={`/schedule/gameById/${game.id}`}>
+                    View Consumer Page
+                  </MUILink>
+                </Button>
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  onClick={() => handleDelete(game.id)}
+                >
+                  <ClearOutlined sx={{ marginRight: "10px" }} />
+                  Delete Scheduled Game
+                </Button>
+              </Box>
             </Item>
           ))}
         </Stack>
       </Box>
-
-      <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }}>
-        <Paper
-          sx={{
-            display: "flex",
-            width: "80vw",
-            margin: "1rem auto",
-            padding: "1rem",
-            justifyContent: "space-around",
-          }}
-        >
-          <Button color="secondary" variant="outlined" size="large">
-            <AddOutlined color="secondary" sx={{ marginRight: "10px" }} />
-            <MUILink color="secondary" href="/add-game">
-              Add New Policy
-            </MUILink>
-          </Button>
-          {/* <Button color="secondary" variant="outlined" size="large">
-            <ModeOutlined color="secondary" sx={{ marginRight: "10px" }} />
-            <MUILink color="secondary" href="/update-policy">
-              Edit Policy
-            </MUILink>
-          </Button>
-          <Button variant="outlined" size="large">
-            <ClearOutlined color="primary" sx={{ marginRight: "10px" }} />
-            <MUILink href="/delete-policy">delete Policy</MUILink>
-          </Button> */}
-        </Paper>
-      </AppBar>
     </Box>
   );
 };

@@ -29,7 +29,7 @@ const initialState: GamesState = {
 
 export const fetchGames = createAsyncThunk<Game[], string>(
   "games/fetchGames",
-  async (todaysDate) => {
+  async (todaysDate, thunkAPI) => {
     try {
       const response = await axios.get(`/api/schedule`, {
         params: { date: todaysDate },
